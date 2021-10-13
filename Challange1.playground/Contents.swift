@@ -8,35 +8,68 @@ struct ContentView: View {
 
   private var controller = StoryController()
   @State private var dialogTxt = ""
-  @State private var backgroungImg: String = "dolomites.jpeg"
-  @State private var characterImg: String = "giau.jpeg"
+  @State private var backgroungImg: String
+  @State private var characterImg: String
+  @State private var buttonText = "See the next scene"
+  
+  init() {
+    backgroungImg = controller.currentItem.sceneImg
+    characterImg = controller.currentItem.characterImg
+  }
     
   var body: some View {
     ZStack {
       Image(uiImage: UIImage(named: backgroungImg)!)
             .resizable()
-            .frame(width: 700, height: 700)
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
-      Text("\(dialogTxt)")
-          .bold()
-          .kerning(1.5)
-          .multilineTextAlignment(.center)
-          .lineSpacing(4.0)
-          .font(.footnote)
-          .onAppear {
-            controller.animateText { text in
-              dialogTxt = text
+            .frame(width: 750, height: 750)
+      HStack {
+        Image(uiImage: UIImage(named: characterImg)!)
+              .resizable()
+              .frame(width: 120, height: 130)
+              .offset(x: -55, y: 0)
+        Text("\(dialogTxt)")
+            .bold()
+            .kerning(1.5)
+            .lineSpacing(4.0)
+            .font(.footnote)
+            .frame(width: 400, height: 210)
+            .onAppear {
+              startTextAnimation()
+            }
+      }.frame(maxHeight: .infinity, alignment: .bottom)
+      Button(action: {
+        controller.nextDialog(isAnimating: { isAnimating in
+          if !isAnimating {
+            startTextAnimation()
           }
-      }
-      Button("Next") {
-        controller.nextDialog()
+        })
         backgroungImg = controller.currentItem.sceneImg
+        characterImg = controller.currentItem.characterImg
+        
+        print("character img: \(characterImg)")
+        
+        dialogTxt = ""
+      }) {
+        Text(buttonText)
       }
     }
+  }
+  
+  func startTextAnimation() {
+    controller.animateText(animatedText: { text in
+      dialogTxt = text
+    }, onStartAnimating: {
+      print("start animating")
+      buttonText = ""
+      
+    }, onFinishedAnimation: { text in
+      print("stop animating")
+      buttonText = "See the next scene"
+    })
   }
 }
 
 // Show the view
 PlaygroundPage.current.setLiveView(
-    ContentView().frame(width: 700, height: 700)
+    ContentView().frame(width: 750, height: 750)
 )
