@@ -10,10 +10,12 @@ public class StoryController {
   
   // List of scenes that will be shown
   let storyList: [Dialog] = [
-    Dialog(sceneImg: "scene_of_crime.png", characterImg: "morty.png", dialogText: "Sed ut perspiciatis "),
+    Dialog(sceneImg: "scene_of_crime.png", characterImg: "morty.png", dialogText: "Sed ut perspiciatis"),
     Dialog(sceneImg: "giau.jpeg", characterImg: "morty.png", dialogText: "Dialog..."),
     Dialog(sceneImg: "scene_of_crime.png", characterImg: "morty.png", dialogText: "Sed ut perspiciatis"),
     Dialog(sceneImg: "scene_of_crime.png", characterImg: "morty.png", dialogText: "Mr. Moriarty, welcome..."),
+    
+    //TODO: add dialog saying the story has finished
 ]
   
   // Get current dialog
@@ -29,8 +31,8 @@ public class StoryController {
     if currentPosition < storyList.capacity - 1 { currentPosition += 1 }
     isAnimating(false)
   
-    print("current position: \(currentPosition)")
-    print("image name: \(currentItem.sceneImg)")
+//    print("current position: \(currentPosition)")
+//    print("image name: \(currentItem.sceneImg)")
   }
   
   public func animateText(

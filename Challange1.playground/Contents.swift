@@ -45,13 +45,15 @@ struct ContentView: View {
         })
         backgroungImg = controller.currentItem.sceneImg
         characterImg = controller.currentItem.characterImg
-        
-        print("character img: \(characterImg)")
-        
         dialogTxt = ""
+
+//        print("character img: \(characterImg)")
       }) {
         Text(buttonText)
-      }
+          .foregroundColor(.white)
+          .frame(width: 350, height: 210)
+          .offset(x: 65)
+      }.frame(maxHeight: .infinity, alignment: .bottom)
     }
   }
   
@@ -59,12 +61,13 @@ struct ContentView: View {
     controller.animateText(animatedText: { text in
       dialogTxt = text
     }, onStartAnimating: {
-      print("start animating")
+//      print("start animating")
       buttonText = ""
-      
     }, onFinishedAnimation: { text in
-      print("stop animating")
-      buttonText = "See the next scene"
+//      print("stop animating")
+      usleep(1100000)
+      buttonText = "Go to the next scene"
+      dialogTxt = ""
     })
   }
 }
